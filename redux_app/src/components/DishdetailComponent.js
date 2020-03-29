@@ -2,10 +2,12 @@ import React, {Component } from 'react';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody,CardTitle,Breadcrumb,BreadcrumbItem,Button, Modal, ModalHeader, ModalBody,
     Form, FormGroup, Input, Label,Row,Col } from 'reactstrap';
 import {Control, LocalForm, Errors } from 'react-redux-form'
-
+import {Loading} from './LoadingComponent';
 
 import {DISHES} from '../shared/dishes.js';
 import { Link } from 'react-router-dom';
+import {baseUrl} from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -146,11 +148,15 @@ class CommentForm extends Component {
              return tdish.map((dish) => {                   
             return(
               <div key={dish.id} className="col-md-5 m-1">
+                    <FadeTransform in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
                 <Card >                                       
                      <div>   
                     <CardBody>
                     <CardImgOverlay >
-                         <CardImg width="50%" src={dish.image} alt={tdish.name} className = "img-fluid"/>
+                         <CardImg width="50%" src={baseUrl + dish.image} alt={tdish.name} className = "img-fluid"/>
                          <CardTitle>{dish.name}</CardTitle>
                          <CardText>{dish.description}</CardText>
                      </CardImgOverlay>
@@ -158,6 +164,7 @@ class CommentForm extends Component {
              </div>
                             
                </Card>
+               </FadeTransform>
                </div>
                  );
                     })
@@ -172,14 +179,20 @@ class CommentForm extends Component {
         function RenderComments({comments,addComment,dishId}) {
             if (comments != null) {
                 console.log("Comments", comments);
-                const userComments = comments.map((comment) => {
+                const userComments =
+                <Stagger in>
+                   {comments.map((comment) => {
                     return (
+                        <Fade in>
                         <ul className="list-unstyled mt-5">
                             <li className="text-justify">{comment.comment}</li>
                             <li className="text-justify">-- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</li>
                         </ul>
+                        </Fade>
                     );
-                });
+                })}
+                </Stagger>
+
     
                 return (
                     <div className="col-12 col-md-5 m-1">
@@ -196,8 +209,28 @@ class CommentForm extends Component {
         }
                          
         const DishDetail = (props) => {  
-          
-            if(props.dishdetails != null){
+            if(props.dishdetails.isLoading){
+                return(
+                    <div className="container">
+                        <div className="row">
+                            <Loading/>
+                        </div>
+                    </div>
+                );
+            }
+
+            else if(props.dishdetails.errMess){
+                return(
+                    <div className="container">
+                        <div className="row">
+                            <h4>{props.dishdetails.errMess}</h4>
+                        </div>
+                    </div>
+                    
+                )
+            }
+
+            else if(props.dishdetails != null){
             return(
             <div className="container">
                 <div className="row">
