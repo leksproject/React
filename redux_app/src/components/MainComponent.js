@@ -1,7 +1,5 @@
 import React,{Component} from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
 import Menu from './MenuComponent';
-import {DISHES} from '../shared/dishes'
 import DishDetail from './DishdetailComponent.js';
 import Home from './HomeComponent';
 import {Switch, Route, Redirect} from 'react-router-dom';
@@ -9,10 +7,10 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
-import { BrowserRouter as Router, Link,withRouter} from "react-router-dom";
+import { BrowserRouter as Router,withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import {postComment,postFeedback, addComment,fetchDishes,fetchComments, fetchPromos,fetchLeaders} from '../redux/ActionCreators';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { TransitionGroup } from 'react-transition-group';
 
 
 const mapStateToProps = state => {

@@ -13,8 +13,7 @@ export const fetchDishes = () => (dispatch) => {
     return fetch(baseUrl + 'dishes')
     .then(response => {
       if (response.ok) {
-            console.log("Response in fetchDishes",response);
-        return response;
+           return response;
         } else {
         var error = new Error('Error ' + response.status + ': ' + response.statusText);
         error.response = response;
@@ -63,7 +62,7 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
     };
 
     newComment.date = new Date().toISOString();
-    console.log("New comment", newComment);
+    // console.log("New comment", newComment);
     return fetch(baseUrl + 'comments',{
         method : "POST",
         body : JSON.stringify(newComment),
@@ -104,7 +103,7 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
 
     newFeedback.date = new Date().toISOString();
 
-   console.log("newfeedback",newFeedback);
+//    console.log("newfeedback",newFeedback);
     return fetch(baseUrl + 'feedback',
     {
    
@@ -117,7 +116,7 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
     })
       .then(response => {
         if (response.ok) {
-            console.log("Response in postfeedback",JSON.stringify(response));
+            // console.log("Response in postfeedback",JSON.stringify(response));
             return response;
         } else {
           var error = new Error('Error ' + response.status + ': ' + response.statusText);

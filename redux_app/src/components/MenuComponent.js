@@ -1,8 +1,7 @@
-import React, {Component } from 'react';
+import React from 'react';
 import { Card, CardImg, CardImgOverlay,
     CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import DishdetailComp from './DishdetailComponent.js'
 import {Loading} from './LoadingComponent';
 import {baseUrl} from '../shared/baseUrl';
 
@@ -31,8 +30,7 @@ import {baseUrl} from '../shared/baseUrl';
   
       const Menu = (props) => 
       {
-          console.log("Inside Menu", props.dishes);
-        const menu = props.dishes.dishes.map((dish) => {
+         const menu = props.dishes.dishes.map((dish) => {
             return(
                 <div className="col-12 col-lg-6 col-md-5 m-1" key={dish.id}>
                     <RenderMenuItem dish={dish} onClick = {props.onClick}/>

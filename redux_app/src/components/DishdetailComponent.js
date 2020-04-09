@@ -1,10 +1,9 @@
 import React, {Component } from 'react';    
 import { Card, CardImg, CardImgOverlay, CardText, CardBody,CardTitle,Breadcrumb,BreadcrumbItem,Button, Modal, ModalHeader, ModalBody,
-    Form, FormGroup, Input, Label,Row,Col } from 'reactstrap';
+      Label,Row,Col } from 'reactstrap';
 import {Control, LocalForm, Errors } from 'react-redux-form'
 import {Loading} from './LoadingComponent';
 
-import {DISHES} from '../shared/dishes.js';
 import { Link } from 'react-router-dom';
 import {baseUrl} from '../shared/baseUrl';
 import { FadeTransform, Fade, Stagger } from 'react-animation-components';
@@ -12,7 +11,7 @@ import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
-const isNumber = (val) => !isNaN(Number(val));
+
 
 //Form to handle comments
 class CommentForm extends Component {
@@ -39,7 +38,7 @@ class CommentForm extends Component {
     
         this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
         
-        console.log('Current State is: ' + JSON.stringify(values));
+        // console.log('Current State is: ' + JSON.stringify(values));
         // alert('Current State is: ' + JSON.stringify(values));     
        
     }
@@ -142,7 +141,6 @@ class CommentForm extends Component {
 //Display the details of selected dish            
        function RenderDish({dishdetails})
         {
-          console.log("Renderdish dishdetails" ,dishdetails);
             if( dishdetails !== null)
             {
              let tdish = Array.from(dishdetails.dish);               
@@ -210,7 +208,6 @@ class CommentForm extends Component {
         }
                          
         const DishDetail = (props) => {  
-            console.log("DishDetail", props);
             if(props.dishdetails.isLoading){
                 return(
                     <div className="container">
@@ -233,8 +230,7 @@ class CommentForm extends Component {
             }
 
             else if(props.dishdetails != null){
-                console.log("props.postcomment", props.postcomment);
-            return(
+                            return(
             <div className="container">
                 <div className="row">
                     <Breadcrumb>

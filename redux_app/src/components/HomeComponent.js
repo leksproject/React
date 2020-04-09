@@ -9,11 +9,6 @@ import { FadeTransform } from 'react-animation-components';
 
 function RenderCard({item, isLoading, errMess})
 {
-    console.log("Render Card",item);
-    // console.log()
-    // 
-    // else
-
     const itemwise = item.map((eachitem) => {
         
          return(

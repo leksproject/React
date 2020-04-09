@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
-import { Breadcrumb, BreadcrumbItem,
-    Button, Form, FormGroup, Label, Input, Col,Row } from 'reactstrap';
+import { Button, FormGroup, Label, Col,Row } from 'reactstrap';
 import {Control, LocalForm, Errors } from 'react-redux-form'
 
 
@@ -51,7 +50,7 @@ class Contact extends Component {
     handleSubmit(values){
 
         
-        console.log('Current State is: ' + JSON.stringify(values));
+        // console.log('Current State is: ' + JSON.stringify(values));
         // this.props.postFeedback(values).then(
         // alert('Current State is: ' + JSON.stringify(values))
         // );

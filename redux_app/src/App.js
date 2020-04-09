@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Main from './components/MainComponent.js';
 import {BrowserRouter as Router} from 'react-router-dom';
