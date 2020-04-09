@@ -2,14 +2,9 @@ import * as ActionTypes from './ActionTypes'
 import {DISHES} from '../shared/dishes'
 import {baseUrl} from '../shared/baseUrl';
 
-export const addComment = (dishId, rating, author,comment) => ({
+export const addComment = (comment) => ({
         type:ActionTypes.ADD_COMMENT,
-        payload : {
-            dishId : dishId,
-            rating : rating,
-            author : author,
-            comment : comment
-        }
+        payload : comment
 });
 
 //Thunk - returns dispatch with different actions
@@ -17,9 +12,7 @@ export const fetchDishes = () => (dispatch) => {
    dispatch(dishesLoading(true));
     return fetch(baseUrl + 'dishes')
     .then(response => {
-        console.log("Response,",response);
-
-        if (response.ok) {
+      if (response.ok) {
             console.log("Response in fetchDishes",response);
         return response;
         } else {
@@ -46,7 +39,7 @@ export const fetchComments = () => (dispatch) => {
                 return response;
                 } else {
                 var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                error.response = response;
+                // error.response = response;
                 throw error;
                 }
             },
@@ -60,6 +53,90 @@ export const fetchComments = () => (dispatch) => {
     
 }
 
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+
+    const newComment = {
+        dishId : dishId,
+        rating : rating,
+        author : author, 
+        comment : comment
+    };
+
+    newComment.date = new Date().toISOString();
+    console.log("New comment", newComment);
+    return fetch(baseUrl + 'comments',{
+        method : "POST",
+        body : JSON.stringify(newComment),
+        headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "same-origin"
+      })
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+      .then(response => response.json())
+      .then(response => dispatch(addComment(response)))
+      .catch(error =>  { console.log('post comments', error.message);
+       alert('Your comment could not be posted\nError: '+error.message); });
+  };
+
+  export const postFeedback = (Firstname, Lastname, tel, email,agree,contactType, message) => (dispatch) => {
+    
+    const newFeedback = {
+        Firstname : Firstname,
+        Lastname : Lastname,
+        tel : tel,
+        email : email,
+        agree: agree,
+        contactType: contactType,
+        message: message,
+    };
+
+    newFeedback.date = new Date().toISOString();
+
+   console.log("newfeedback",newFeedback);
+    return fetch(baseUrl + 'feedback',
+    {
+   
+        method : "POST",
+        body : JSON.stringify(newFeedback),
+        headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "same-origin"
+    })
+      .then(response => {
+        if (response.ok) {
+            console.log("Response in postfeedback",JSON.stringify(response));
+            return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+      .then(response => response.json())
+      .then(response => dispatch(
+                postFeedback(response)
+                ))
+      .catch(error =>  { console.log('post feedback', error.message);
+       alert('Your comment could not be posted\nError: '+error.message); });
+  };
+
+    
 //Different action types
 export const dishesLoading = () => ({
     type:ActionTypes.DISHES_LOADING
@@ -131,7 +208,7 @@ error => {
      
     .then(response => response.json())
     .then(leaders => dispatch(addLeaders(leaders)))
-    .catch(error => dispatch(commentsFailed(error.message)));
+    .catch(error => dispatch(leadersFailed(error.message)));
 }
 
 export const leadersLoading = () => ({

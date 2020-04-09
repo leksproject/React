@@ -49,9 +49,15 @@ class Contact extends Component {
     }
 
     handleSubmit(values){
+
+        
         console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
-        values.preventDefault();
+        // this.props.postFeedback(values).then(
+        // alert('Current State is: ' + JSON.stringify(values))
+        // );
+        this.props.postFeedback(values.firstname, values.lastname, values.telnum, values.email,values.agree,values.contactType,values.message);
+  
+        // values.preventDefault();
 
     }
     //whenever anything changes in the input box
@@ -275,7 +281,7 @@ class Contact extends Component {
                             </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="message" md={2}>Your Feedback</Label>
+                                <Label htmlFor="message" md={2}>Your </Label>
                                 <Col md={10}>
                                     <Control.textarea model="textarea" id="message" name="message"
                                         rows="12"

@@ -2,43 +2,22 @@ import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, CardImgOverlay,CardTitle, CardText,CardImg, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {baseUrl} from '../shared/baseUrl';
-
+import { Fade, Stagger } from 'react-animation-components';
 
 function About(props) {
 
-    console.log("About",props);
-
-       function Renderleaders(leaders)
+    function Renderleaders(leaders)
     {
-        console.log("Rnderleaders", leaders);
-        console.log("props.leaders", leaders.leaders);
-
-        const test = leaders.leaders.map((detail) =>{
-            console.log("name", detail.name);
-            return(
-                <div>
-                <Media>
-                <div key={detail.id} className="col-md-5 m-1">
-                    <h2>test</h2>
-                    {detail.name}
-                    
-                </div>
-                </Media>
-                </div>
-
-            );
-        })
-
-            
-        
+                         
         // if(props != null){
-        const leaderslist = leaders.leaders.map((detail) =>
+        const leaderslist = 
+        // <Stagger in>
+        leaders.leaders.map((detail) =>
         {
-            console.log("inside leaderslist", detail);
             return(
                 <div className = "container">
                 <div key={detail.id} className = "row">
-                    <Media>
+                      <Media>
                       <Media left top className = "col-12 col-md-5 col-lg-3">
                         <Media object width="20%" src={baseUrl + detail.image} alt={detail.name} />
                       </Media>
@@ -54,17 +33,22 @@ function About(props) {
                     </Media>
                      <br/>
                      </Media>
+                                          
               </div> 
             </div>);
-              
-         
+           
          });
-    
+                  
             if (props != null){
                 return(
                     <div className="col-12 col-md-5 m-1">
-                        {leaderslist}
-                    {/* {leaderslist} */}
+                        {/* Animation effect */}
+                        <Stagger in>
+                            <Fade>
+                               {leaderslist}
+                            </Fade>
+                       </Stagger>
+ 
                     </div>
                 );
                 }

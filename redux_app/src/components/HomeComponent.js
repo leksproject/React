@@ -15,8 +15,8 @@ function RenderCard({item, isLoading, errMess})
     // else
 
     const itemwise = item.map((eachitem) => {
-        console.log("item", eachitem);
-        return(
+        
+         return(
             <div className = "container">
                 <div key={eachitem.id} className = "col-12 col-md-5 col-lg-3">
                 <FadeTransform
@@ -61,7 +61,7 @@ function RenderCard({item, isLoading, errMess})
 
 function Home(props)
 {
-  console.log("Home", props);
+  
     if(props != null)
         {
     return(

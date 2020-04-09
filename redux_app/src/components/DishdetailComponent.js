@@ -36,8 +36,9 @@ class CommentForm extends Component {
     
     handleSubmit(values){
         this.toggleModal();
+    
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
         
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
         console.log('Current State is: ' + JSON.stringify(values));
         // alert('Current State is: ' + JSON.stringify(values));     
        
@@ -53,7 +54,7 @@ class CommentForm extends Component {
           
         <ModalHeader toggle={this.toggleModal}>Submit Comments</ModalHeader>
         <ModalBody>
-            <div className="col-12 col-md-5 col-bg-6">
+            {/* <div className="col-12 col-md-5 col-bg-6"> */}
                 <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                        <Row className="form-group">
                             <Label htmlFor="rating" md={2}>Rating</Label>
@@ -128,7 +129,7 @@ class CommentForm extends Component {
                         </Col>
                         </Row>
                         </LocalForm>
-                 </div>                               
+                 {/* </div>                                */}
             </ModalBody>
            
         </Modal>
@@ -176,9 +177,9 @@ class CommentForm extends Component {
             }
         }
 
-        function RenderComments({comments,addComment,dishId}) {
+        function RenderComments({comments,postComment,dishId}) {
             if (comments != null) {
-                console.log("Comments", comments);
+             
                 const userComments =
                 <Stagger in>
                    {comments.map((comment) => {
@@ -198,7 +199,7 @@ class CommentForm extends Component {
                     <div className="col-12 col-md-5 m-1">
                         <h4 className="text-justify">Comments</h4>
                         {userComments}
-                        <CommentForm dishId={dishId} addComment={addComment}/>
+                        <CommentForm dishId={dishId} postComment={postComment}/>
                     </div>  
                 );
             } else {
@@ -209,6 +210,7 @@ class CommentForm extends Component {
         }
                          
         const DishDetail = (props) => {  
+            console.log("DishDetail", props);
             if(props.dishdetails.isLoading){
                 return(
                     <div className="container">
@@ -231,6 +233,7 @@ class CommentForm extends Component {
             }
 
             else if(props.dishdetails != null){
+                console.log("props.postcomment", props.postcomment);
             return(
             <div className="container">
                 <div className="row">
@@ -250,7 +253,7 @@ class CommentForm extends Component {
                  <div  className="col-12 col-md-5 m-1">     
                     <Card>
                        <RenderComments comments={props.dishdetails.comments}
-                        addComment={props.addComment}
+                        postComment={props.postComment}
                         dishId = {props.dishdetails.id}/>
                     </Card>
                        </div>

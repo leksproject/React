@@ -11,7 +11,7 @@ import Contact from './ContactComponent';
 import About from './AboutComponent';
 import { BrowserRouter as Router, Link,withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
-import {addComment,fetchDishes,fetchComments, fetchPromos,fetchLeaders} from '../redux/ActionCreators';
+import {postComment,postFeedback, addComment,fetchDishes,fetchComments, fetchPromos,fetchLeaders} from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 
@@ -26,6 +26,22 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => ({
   addComment: (dishId, rating,author,comment) => dispatch(addComment(dishId, rating,author,comment)),
+  postComment: (dishId, rating,author,comment) => dispatch(postComment(dishId, rating,author,comment)),
+  postFeedback: (firstname,
+    lastname,
+    telnum,
+    email,
+    agree,
+    contactType,
+    message,
+    id) => dispatch(postFeedback( firstname,
+      lastname,
+      telnum,
+      email,
+      agree,
+      contactType,
+      message,
+      id)),
   fetchDishes: () => {dispatch(fetchDishes())},
   fetchComments: () => {dispatch(fetchComments())},
   fetchPromos: () => {dispatch(fetchPromos())},
@@ -37,7 +53,7 @@ class Main extends Component {
   constructor(props)
   {
     super(props);
-    console.log("props",props);
+    
     //Removed and included in reducer.js
     // this.state = {
     //   dishes : DISHES,
@@ -47,8 +63,8 @@ class Main extends Component {
     // };
   }
 
-  //Executed after the main component is mou+
-  nted
+  //Executed after the main component is mounted
+
   //As main component is mounted, these will be updated from server.
   componentDidMount(){
     this.props.fetchDishes();
@@ -86,15 +102,18 @@ class Main extends Component {
       }
 
       const DishWithId = ({match}) => {
-                
+        
         let dishid = {
           dish : this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId)),
           isLoading : this.props.dishes.isLoading,
           errMess : this.props.dishes.errMess,
           comments : this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId)),
           commentserrMess : this.props.comments.errMess,
-          addComment : this.props.addComment
+          addComment : this.props.addComment,
+          postComment : this.props.postComment,
+              
         }
+
         return(
           <div>
             <DishDetail dishdetails = {dishid}/>
@@ -105,42 +124,15 @@ class Main extends Component {
         
      return(
 
-        // <div>
-        //   <Router>
-        //   <div>
-        //     <Header/>
-        //    <TransitionGroup>
-        //     <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
-        //       <Switch location={this.props.location}>
-        //           <Route path='/home' component={HomePage} />
-        //           <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />} />
-        //           <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
-        //           <Route path='/menu/:dishId' component={DishWithId} />
-        //           <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
-        //           <Redirect to="/home" />
-        //       </Switch>
-        //       <Footer/>
-        //     </CSSTransition>
-        //   </TransitionGroup>
-        //   </div>
-        //   </Router>
- 
-        // </div>
+        
         <div>      
         <Header/>
         <TransitionGroup>
-        {/* <CSSTransition
-        className="container result"
-        transitionName="test"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={300}>  */}
-
-           {/* <CSSTransition key={this.props.location.key} classNames="page" timeout={300}/> */}
-         <Switch>
+        <Switch>
           <Route path="/home" component={HomePage}/>
           <Route path='/menu/:dishId' component={DishWithId} />
           <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes}  />}/>
-          <Route exact path="/contactus" component={Contact }/>
+          <Route exact path="/contactus" component={()=> <Contact postFeedback = {this.props.postFeedback}/>}/>
           <Route exact path="/aboutus" component={() => <About leaders = {this.props.leaders.leaders}/>}/>
           <Redirect to="/home" />
         
